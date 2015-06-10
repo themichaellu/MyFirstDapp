@@ -13,7 +13,7 @@ SCRIPT
 
 $fucking_locale = <<SCRIPT
     locale-gen en_US en_US.UTF-8 pt_BR.UTF-8 de_DE.UTF-8
-    dpkg-reconfigure locales 
+    dpkg-reconfigure locales
 SCRIPT
 
 $dependencies = <<SCRIPT
@@ -69,7 +69,7 @@ fi
 SCRIPT
 
 $migrate = <<SCRIPT
-    cd /vagrant/factserver/
+    cd /vagrant/server/
     python manage.py migrate
 SCRIPT
 
@@ -82,7 +82,7 @@ Vagrant.configure(2) do |config|
 
   config.ssh.forward_agent = true
   config.vm.network :forwarded_port, host: 8050, guest: 8050
-  
+
   config.vm.provision "shell", inline: $ethereumcpp
   config.vm.provision "shell", inline: $fucking_locale
   config.vm.provision "shell", inline: $dependencies
