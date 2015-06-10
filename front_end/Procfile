@@ -1,0 +1,3 @@
+web: gunicorn --pythonpath="$PWD/factserver" wsgi:application
+worker: celery -A config worker --loglevel info --workdir="$PWD/factserver" -c 1
+worker: celery -A config beat -S djcelery.schedulers.DatabaseScheduler --loglevel info --workdir="$PWD/factserver"
