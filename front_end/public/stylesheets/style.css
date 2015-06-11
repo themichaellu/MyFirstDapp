@@ -1,0 +1,225 @@
+body {
+  padding: 50px;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+  
+}
+
+a {
+  color: #b6b6b6;
+}
+
+#sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 200px;
+	height: 100%;
+	border:1px solid #ccc;
+	overflow:auto;
+	z-index:100;
+}
+#sidebar-tabs {
+    height: 50px;
+    width: 100%;
+    position: absolute;
+}
+.sidebar-tab {
+    position: absolute !important;
+    background-color: #2e2e2e !important;
+    border-color: #080808;
+    width: 50%;
+    height: 100%;
+}
+.tab-selected {
+    background-color: #2e2e2e !important;
+    border-color: #444444 !important
+}
+.sidebar-pane {
+    position: absolute;
+    top: 0px;
+    height: calc(100% - 50px);
+    width: 100%;
+}
+#room-list-tab {
+
+    
+}
+/*#history-tab {*/
+/*    background-color: #2e2e2e !important;*/
+/*    border-color: #080808;*/
+/*    right: 0;*/
+/*}*/
+#room-list {
+}
+#history {
+    display: none;
+}
+
+.createRoomButton {
+	/*background-color: #2e2e2e !important;
+	*border-color: #080808 !important;
+	*/width: 100% !important;
+	height: 50px !important;
+	/*left: 100px !important;*/
+	/*right: 100px !important;*/
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.roomButtonOdd {
+	background-color: #545454 !important;
+	border-color: #3b3b3b !important;
+	/*width: 398px !important;*/
+	width: 100% !important;
+	height: 100px !important;
+	line-height: 100px !important;
+	padding: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.roomButtonEven {
+	background-color: #2e2e2e !important;
+	border-color: #080808 !important;
+	/*width: 398px !important;*/
+	width: 100% !important;
+	height: 100px !important;
+	line-height: 100px !important;
+	padding: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.confirmButton {
+	background-color: #848484 !important;
+	border-color: #080808 !important;
+}
+
+.cancelButton {
+	background-color: #2e2e2e !important;
+	border-color: #080808 !important;
+}
+
+#createPostPane {
+    position: fixed !important;
+    left: 210px !important;
+    bottom: 10px !important;
+    display: none;
+}
+
+#parents span {
+    font-size: 10pt;
+    padding-right: 10px;
+}
+
+.chatbox {
+	position: absolute;
+	top: 10px;
+	bottom: 0px;
+	left: 410px;
+	right: 0px;
+}
+
+.post {
+	border: 1px solid #bbb;
+	width: 300px;
+	height: 150px;
+	position: absolute;
+    background-color: #2e2e2e;
+    color: black;
+}
+.post-user-id{
+    font-color: white;
+    color: white;
+}
+
+.current {
+	left: 20% !important;
+	top: 100px;
+	width: 60% !important;
+	max-height: 400px !important; 
+	-webkit-transition: all 0.5s ease;
+}
+
+.child {
+	display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    
+    border: 1px solid blue;
+    width: 300px;
+    height: 200px;
+    
+    margin-top: 500px;
+    margin-left: 50px;
+    margin-right: 50px;
+    -webkit-transition: all 0.5s ease;
+}
+
+.childrenContainer {
+    text-align: center;
+}
+
+@-webkit-keyframes slide {
+    0% {
+        left: -300px;
+    }
+    
+    100% {
+        left: 220px;
+    }
+}
+
+.animatedPost {
+    -webkit-animation-name: slide;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease-in-out;
+}
+
+.post-header {
+  width: 300px;
+  height: 150px;
+  line-height: 23px;
+  font-size: 10pt;
+  padding-left: 5px;
+}
+.post-time {
+  padding-left: 15px;
+  color: #ddd;
+}
+.post-reply {
+  right: 0;
+  position: absolute;
+  background-color: #2e2e2e;
+  padding-right: 5px;
+  padding-left: 5px;
+  -webkit-transition: all 0.1s linear;
+  cursor: pointer;
+  color: white;
+}
+.post-reply:hover {
+  -webkit-transition: all 0.1s linear;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.post-content {
+  padding: 3px 5px 3px 5px;
+  background-color: white;
+  bottom: 0; left: 0; right: 0; top: 23px;
+  position: absolute;
+  cursor: pointer;
+}
+
+#infovis {
+    position:relative;
+    overflow:hidden;
+    height: 100%;
+    width: 100%;
+}
+
+#center-container {
+    position:fixed;
+    left: 200px;
+    right: 0px;
+    top:0;
+    bottom:0;
+}

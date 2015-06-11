@@ -11,7 +11,7 @@ DEBIAN_FRONTEND=noninteractive apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y eth
 SCRIPT
 
-$fucking_locale = <<SCRIPT
+$locale = <<SCRIPT
     locale-gen en_US en_US.UTF-8 pt_BR.UTF-8 de_DE.UTF-8
     dpkg-reconfigure locales
 SCRIPT
@@ -51,26 +51,22 @@ pyenv rehash
 pyenv global 2.7.9
 SCRIPT
 
-$requirements = <<SCRIPT
-    pip install -r /vagrant/requirements/local.txt
-    pip install -r /vagrant/requirements/test.txt
+$node = <<SCRIPT
+    DEBIAN_FRONTEND=noninteractive apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+    DEBIAN_FRONTEND=noninteractive apt-get install -y npm
 SCRIPT
 
 $postgresql = <<SCRIPT
-DATABASE_NAME="fs"
+DATABASE_NAME="db"
 CLUSTER_NAME="main"
 if ! su postgres -c "pg_lsclusters"| grep -q CLUSTER_NAME; then
     pg_createcluster --start --locale=en_US.UTF-8 9.3 CLUSTER_NAME
 fi
-su postgres -c "psql -tAc \\\"CREATE USER ${DATABASE_NAME} WITH CREATEDB PASSWORD '123456';\\\""
+su postgres -c "psql -tAc \\\"CREATE USER ${DATABASE_NAME} WITH CREATEDB PASSWORD 'password';\\\""
 if ! su postgres -c "psql -l"|grep -q fs; then
     su postgres -c "createdb -T template1 -O ${DATABASE_NAME} ${DATABASE_NAME}"
 fi
-SCRIPT
-
-$migrate = <<SCRIPT
-    cd /vagrant/server/
-    python manage.py migrate
 SCRIPT
 
 Vagrant.configure(2) do |config|
@@ -84,11 +80,10 @@ Vagrant.configure(2) do |config|
   config.vm.network :forwarded_port, host: 8050, guest: 8050
 
   config.vm.provision "shell", inline: $ethereumcpp
-  config.vm.provision "shell", inline: $fucking_locale
+  config.vm.provision "shell", inline: $locale
   config.vm.provision "shell", inline: $dependencies
   config.vm.provision "shell", inline: $pyenv, privileged: false
-  config.vm.provision "shell", inline: $requirements, privileged: false
   config.vm.provision "shell", inline: $postgresql
-  config.vm.provision "shell", inline: $migrate, privileged: false
+  config.vm.provision "shell", inline: $node
 
 end

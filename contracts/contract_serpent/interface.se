@@ -1,0 +1,32 @@
+extern storage.se: [gain_access:i:_,has_access:i:i, revoke_access:i:_, send:ii:_, update_creator:i:_]
+extern send_ether.se: [update_creator:i:_, set_storage_address:i:_, send_ether:iii:_]
+
+data sa         # storage_address
+data se         # send_ether_address
+data creator
+
+
+def init():
+    self.creator = msg.sender
+
+def update_creator(creator_address):
+	if msg.sender == self.creator:
+		self.creator = creator_address
+
+def set_storage_address(storage_address):
+    if msg.sender == self.creator:
+        self.sa = storage_address
+
+def get_storage_address():
+    return self.sa
+
+def set_send_ether_address(send_ether_address):
+    if msg.sender == self.creator:
+        self.se = send_ether_address
+
+def get_send_ether_address():
+    return self.se
+
+def send_ether(receiver_address, amount):
+    sender_address = msg.sender
+    self.se.send_ether(sender_address, receiver_address, amount)

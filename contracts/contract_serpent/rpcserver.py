@@ -20,87 +20,31 @@ coinbase = s.block.coinbase
 
 # create contracts
 storage_contract = s.abi_contract('storage.se')
-fact_server_contract = s.abi_contract('fact_server.se')
-helpers_contract = s.abi_contract('helpers.se')
-ln_n_contract = s.abi_contract('ln_n.se')
+server_contract = s.abi_contract('server.se')
 interface_contract = s.abi_contract('interface.se')
+helpers_contract = s.abi_contract('helpers.se')
+send_ether_contract = s.abi_contract('send_ether.se')
 
 # gain access to storage
 storage_contract.gain_access(coinbase)
-storage_contract.gain_access(create_market_contract.address)
-storage_contract.gain_access(resolve_market_contract.address)
 storage_contract.gain_access(helpers_contract.address)
-storage_contract.gain_access(send_shares_contract.address)
-storage_contract.gain_access(buy_all_outcomes_contract.address)
-storage_contract.gain_access(redeem_all_outcomes_contract.address)
-storage_contract.gain_access(buy_shares_contract.address)
-storage_contract.gain_access(sell_shares_contract.address)
+storage_contract.gain_access(send_ether_contract.address)
 
 # gain access to helpers
-helpers_contract.gain_access(resolve_market_contract.address)
-helpers_contract.gain_access(buy_shares_contract.address)
-helpers_contract.gain_access(sell_shares_contract.address)
+helpers_contract.gain_access(send_ether_contract.address)
 helpers_contract.gain_access(interface_contract.address)
-
-# set create market addresses
-create_market_contract.set_storage_address(storage_contract.address)
-create_market_contract.set_interface_address(interface_contract.address)
-
-# set resolve market addresses
-resolve_market_contract.set_storage_address(storage_contract.address)
-resolve_market_contract.set_helpers_address(helpers_contract.address)
-resolve_market_contract.set_share_prices_address(share_prices_contract.address)
-resolve_market_contract.set_interface_address(interface_contract.address)
 
 # set helpers addresses
 helpers_contract.set_storage_address(storage_contract.address)
-helpers_contract.set_share_prices_address(share_prices_contract.address)
 
 # set send shares addresses
-send_shares_contract.set_storage_address(storage_contract.address)
-send_shares_contract.set_interface_address(interface_contract.address)
-
-# set buy all outcomes addresses
-buy_all_outcomes_contract.set_storage_address(storage_contract.address)
-buy_all_outcomes_contract.set_interface_address(interface_contract.address)
-
-# set redeem all outcomes addresses
-redeem_all_outcomes_contract.set_storage_address(storage_contract.address)
-redeem_all_outcomes_contract.set_helpers_address(helpers_contract.address)
-redeem_all_outcomes_contract.set_interface_address(interface_contract.address)
-
-# set buy shares addresses
-buy_shares_contract.set_storage_address(storage_contract.address)
-buy_shares_contract.set_share_prices_address(share_prices_contract.address)
-buy_shares_contract.set_helpers_address(helpers_contract.address)
-buy_shares_contract.set_interface_address(interface_contract.address)
-
-# set sell shares addresses
-sell_shares_contract.set_storage_address(storage_contract.address)
-sell_shares_contract.set_share_prices_address(share_prices_contract.address)
-sell_shares_contract.set_helpers_address(helpers_contract.address)
-sell_shares_contract.set_interface_address(interface_contract.address)
+send_ether_contract.set_storage_address(storage_contract.address)
+send_ether_contract.set_interface_address(interface_contract.address)
+send_ether_contract.set_helpers_address(helpers_contract.address)
 
 # set interface addresses
 interface_contract.set_storage_address(storage_contract.address)
-interface_contract.set_create_market_address(create_market_contract.address)
-interface_contract.set_share_prices_address(share_prices_contract.address)
-interface_contract.set_resolve_market_address(resolve_market_contract.address)
-interface_contract.set_send_shares_address(send_shares_contract.address)
-interface_contract.set_buy_all_outcomes_address(buy_all_outcomes_contract.address)
-interface_contract.set_redeem_all_outcomes_address(redeem_all_outcomes_contract.address)
-interface_contract.set_buy_shares_address(buy_shares_contract.address)
-interface_contract.set_sell_shares_address(sell_shares_contract.address)
-interface_contract.set_helpers_address(helpers_contract.address)
-
-# set share prices addresses
-share_prices_contract.set_share_prices_address_1(share_prices_1_contract.address)
-share_prices_contract.set_share_prices_address_2(share_prices_2_contract.address)
-share_prices_contract.set_ln_n_address(ln_n_address_contract.address)
-
-# set parameters
-share_prices_contract.set_precision_factor(1000000000000)
-share_prices_contract.set_outcome_range(10000)
+interface_contract.set_send_ether_address(send_ether_contract.address)
 
 # execute transactions
 if EXECUTE_LOGFILE:
@@ -154,7 +98,7 @@ def eth_sendTransaction(transaction):
     BALANCE -= value
     BLOCK_NUMBER += 1
     if transaction['data'].startswith('0x4891e225'):
-        contract_address = fact_server_contract.address
+        contract_address = server_contract.address
     else:
         contract_address = interface_contract.address
     if LOG_TRANSACTIONS:

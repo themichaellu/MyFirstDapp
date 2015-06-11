@@ -1,0 +1,25 @@
+data access_control[]
+data creator
+
+
+def init():
+    self.creator = msg.sender
+
+def update_creator(creator_address):
+    if msg.sender == self.creator:
+        self.creator = creator_address
+
+def gain_access(contract_address):
+    if msg.sender == self.creator and not self.access_control[contract_address]:
+        self.access_control[contract_address] = 1
+
+def revoke_access(contract_address):
+    if msg.sender == self.creator and self.access_control[contract_address]:
+        self.access_control[contract_address] = 0
+
+def has_access(contract_address):
+    return self.access_control[contract_address]
+
+def send(address, amount):
+    if msg.sender == self.creator or self.access_control[msg.sender]:
+        send(address, amount)
