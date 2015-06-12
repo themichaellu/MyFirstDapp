@@ -1,0 +1,29 @@
+body{
+	font-family: "Crimson Text";
+	background-color:#545454;
+}
+
+
+h1{
+	font-family: "Crimson Text";
+	color:white;
+	margin-top: 10%;
+	font-size: 355%;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+}
+h2{
+	font-family: "Crimson Text";
+	font-style: italic;
+	color:white;
+	font-size: 150%;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+}
+#submit-button{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}

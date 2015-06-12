@@ -1,41 +1,25 @@
-extern storage.se: [gain_access:i:_,has_access:i:i, revoke_access:i:_, send:ii:_, update_creator:i:_]
+from serpent_helpers import *
+class SendEtherContract:
 
-data sa  # storage_address
-data ha  # helpers_address
-data ia  # interface_address
-data creator
+    def __init__(self):
+        self.sa = None
+        self.creator = None
+        self.init()
 
+    def init(self):
+        self.creator = msg.sender
 
-def init():
-    self.creator = msg.sender
+    def update_creator(self, creator_address, value=0):
+        if msg.sender == self.creator:
+            self.creator = creator_address
 
-def update_creator(creator_address):
-	if msg.sender == self.creator:
-		self.creator = creator_address
+    def set_storage_address(self, storage_address, value=0):
+        if msg.sender == self.creator:
+            self.sa = storage_address
 
-def set_storage_address(storage_address):
-    if msg.sender == self.creator:
-        self.sa = storage_address
+    def get_storage_address(self, value=0):
+        return self.sa
 
-def get_storage_address():
-    return self.sa
+    def send_ether(self, amount):
 
-def set_interface_address(interface_address):
-    if msg.sender == self.creator:
-        self.ia = interface_address
-
-def get_interface_address():
-    return self.ia
-
-def set_helpers_address(helpers_address):
-    if msg.sender == self.creator:
-        self.ha = helpers_address
-
-def get_helpers_address():
-    return self.ha
-
-def send_ether(sender_address, receiver_address, amount):
-    if msg.sender == self.ia
-        self.sa.send(shareholder_address, amount)
-        send(self.sa, amount)
-        self.ha.send_ether_from_storage(receiver_address, amount)
+        self.sa.send(self.sa, amount)

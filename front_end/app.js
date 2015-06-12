@@ -9,9 +9,12 @@ var errorhandler = require('errorhandler')
 var inspect = require('util').inspect;
 // var database = require('mariasql');
 var pg = require('pg');
+
+var web3 = require("web3")
+var cors = require('cors')
+
 // var bcrypt = require('bcrypt-nodejs');
 var app = express();
-//var routes = require('./routes');
 // var conString = "postgres://db:password@localhost/main";
 // var db = new pg();
 // db.connect({
@@ -30,8 +33,10 @@ var app = express();
 // ).on(
 // 	'close', function(hadError){console.log('Connection closed');}
 // );
-
 // all environments
+
+app.use(cors());
+
 app.set('port', process.env.PORT || 8050);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

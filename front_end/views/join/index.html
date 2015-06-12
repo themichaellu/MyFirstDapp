@@ -10,18 +10,18 @@
 		<link href='//fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
 		<script type="text/javascript">
 			function store(){
-				var inputUname = document.getElementById("username");
-				localStorage.setItem("user_id", inputUname.value);
+				var input_name = document.getElementById("username");
+				localStorage.setItem("user_id", input_name.value);
 				var storedValue = localStorage.getItem("user_id");
 				console.log(storedValue);
-			}	
+			}
 		</script>
 	</head>
 	<body>
 		<h1>Join</h1>
-		<h2>Welcome to Trail</h2>
+		<h2>Welcome to Forward</h2>
 		<div id="join-container">
-			<form id="join-form" name="join-form" action="/rooms/"/>
+			<form id="join-form" name="join-form" action="/send/"/>
 				<input type="text" name= "username" placeholder="username" id="username"/>
 				<div id= "submit-button">
 					<button onclick= "store()"class= "button">Enter</button>

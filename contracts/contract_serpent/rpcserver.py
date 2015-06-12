@@ -5,7 +5,7 @@ from ethereum.utils import sha3
 from ethereum.tester import keys
 
 # CONFIG
-BALANCE = 10000000000000000000000
+BALANCE = 10000000000000
 GAS_PRICE = 10000000000000
 GAS_LIMIT = 500000000
 BLOCK_NUMBER = 1000
@@ -20,27 +20,19 @@ coinbase = s.block.coinbase
 
 # create contracts
 storage_contract = s.abi_contract('storage.se')
-server_contract = s.abi_contract('server.se')
 interface_contract = s.abi_contract('interface.se')
-helpers_contract = s.abi_contract('helpers.se')
 send_ether_contract = s.abi_contract('send_ether.se')
+
 
 # gain access to storage
 storage_contract.gain_access(coinbase)
-storage_contract.gain_access(helpers_contract.address)
 storage_contract.gain_access(send_ether_contract.address)
 
-# gain access to helpers
-helpers_contract.gain_access(send_ether_contract.address)
-helpers_contract.gain_access(interface_contract.address)
 
-# set helpers addresses
-helpers_contract.set_storage_address(storage_contract.address)
 
 # set send shares addresses
 send_ether_contract.set_storage_address(storage_contract.address)
 send_ether_contract.set_interface_address(interface_contract.address)
-send_ether_contract.set_helpers_address(helpers_contract.address)
 
 # set interface addresses
 interface_contract.set_storage_address(storage_contract.address)
@@ -97,10 +89,7 @@ def eth_sendTransaction(transaction):
     value = int(transaction['value'], 16)
     BALANCE -= value
     BLOCK_NUMBER += 1
-    if transaction['data'].startswith('0x4891e225'):
-        contract_address = server_contract.address
-    else:
-        contract_address = interface_contract.address
+    contract_address = interface_contract.address
     if LOG_TRANSACTIONS:
         log_file.write('{}\t{}\t{}\n'.format(contract_address.encode('hex'), value, transaction['data'][2:]))
     s.send(keys[0], contract_address, value, evmdata=transaction['data'][2:].decode('hex'))
@@ -109,6 +98,10 @@ def eth_sendTransaction(transaction):
 def web3_sha3(argument):
     print 'web3_sha3'
     return '0x' + sha3(argument[2:].decode('hex')).encode('hex')
+
+def eth_contractAddress():
+    print 'interface contract address'
+    return interface_contract.address
 
 
 server = SimpleJSONRPCServer(('localhost', 8545))
