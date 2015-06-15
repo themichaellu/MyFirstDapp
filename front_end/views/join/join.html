@@ -10,8 +10,8 @@
 		<link href='//fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
 		<script type="text/javascript">
 			function store(){
-				var input_name = document.getElementById("username");
-				localStorage.setItem("user_id", input_name.value);
+				var input_name = $("#username").val();
+				localStorage.setItem("user_id", input_name);
 				var storedValue = localStorage.getItem("user_id");
 				console.log(storedValue);
 			}
@@ -22,9 +22,9 @@
 		<h2>Welcome to Forward</h2>
 		<div id="join-container">
 			<form id="join-form" name="join-form" action="/send/"/>
-				<input type="text" name= "username" placeholder="username" id="username"/>
-				<div id= "submit-button">
-					<button onclick= "store()"class= "button">Enter</button>
+				<input type="text" name="username" placeholder="username" id="username"/>
+				<div id="submit-button">
+					<button onclick="store()" class= "button">Enter</button>
 				</div>
 			</form>
 		</div>
