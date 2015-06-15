@@ -1,9 +1,0 @@
-# Pro-tip: Try not to put anything here. There should be no dependency in
-#	production that isn't in development.
--r base.txt
-
-gunicorn==19.1.1
-django-storages-redux==1.2.2
-Collectfast==0.2.1
-gevent==1.0.1
-boto==2.36.0
