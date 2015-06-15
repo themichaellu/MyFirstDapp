@@ -1,6 +1,0 @@
-def init():
-    self.creator = msg.sender
-
-def update_creator(creator_address):
-	if msg.sender == self.creator:
-		self.creator = creator_address
