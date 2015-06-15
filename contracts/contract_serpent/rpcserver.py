@@ -1,4 +1,4 @@
-from jsonrpclib.SimpleJSONRPCServer import SimpleJSONRPCServer
+from jsonrpclib.SimpleJSONRPCServer import SimpleJSONRPCServer, AllowHeadersHandler
 from ethereum import tester as t
 from rlp.utils import encode_hex
 from ethereum.utils import sha3
@@ -104,7 +104,7 @@ def eth_contractAddress():
     return interface_contract.address
 
 
-server = SimpleJSONRPCServer(('localhost', 8545))
+server = SimpleJSONRPCServer(('localhost', 8545),requestHandler=AllowHeadersHandler)
 server.register_function(eth_coinbase, 'eth_coinbase')
 server.register_function(eth_getBalance, 'eth_getBalance')
 server.register_function(web3_sha3, 'web3_sha3')

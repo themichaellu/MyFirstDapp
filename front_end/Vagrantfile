@@ -1,72 +1,7 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-$ethereumcpp = <<SCRIPT
-if ! which eth | grep -q /usr/bin/eth; then
-  DEBIAN_FRONTEND=noninteractive sudo add-apt-repository ppa:ethereum/ethereum
-  DEBIAN_FRONTEND=noninteractive sudo add-apt-repository ppa:ethereum/ethereum-dev
-  DEBIAN_FRONTEND=noninteractive sudo add-apt-repository ppa:ethereum/ethereum-qt
-fi
-DEBIAN_FRONTEND=noninteractive apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y eth
-SCRIPT
-
-$locale = <<SCRIPT
-    locale-gen en_US en_US.UTF-8 pt_BR.UTF-8 de_DE.UTF-8
-    dpkg-reconfigure locales
-SCRIPT
-
-$dependencies = <<SCRIPT
-    # pyenv
-    DEBIAN_FRONTEND=noninteractive apt-get install -y curl python-dev \
-        libreadline-dev libbz2-dev libssl-dev libsqlite3-dev libxslt1-dev \
-        libxml2-dev libxslt1-dev git python-pip
-    # postgresql
-    DEBIAN_FRONTEND=noninteractive apt-get install -y postgresql libpq-dev
-SCRIPT
-
-$pyenv = <<SCRIPT
-if [ ! -d ~/.pyenv ]; then
-    pip install --egg pyenv
-else
-    . ~/.bash_profile
-    pyenv update
-fi
-if [ ! -f ~/.bash_profile ]; then
-    touch ~/.bash_profile
-fi
-if ! grep -q pyenv ~/.bash_profile; then
-    echo '
-# pyenv
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-' >> ~/.bash_profile
-fi
-
-. ~/.bash_profile
-pyenv install 2.7.9
-pyenv rehash
-pyenv global 2.7.9
-SCRIPT
-
 $node = <<SCRIPT
     DEBIAN_FRONTEND=noninteractive apt-get update
     DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
     DEBIAN_FRONTEND=noninteractive apt-get install -y npm
-SCRIPT
-
-$postgresql = <<SCRIPT
-DATABASE_NAME="db"
-CLUSTER_NAME="main"
-if ! su postgres -c "pg_lsclusters"| grep -q CLUSTER_NAME; then
-    pg_createcluster --start --locale=en_US.UTF-8 9.3 CLUSTER_NAME
-fi
-su postgres -c "psql -tAc \\\"CREATE USER ${DATABASE_NAME} WITH CREATEDB PASSWORD 'password';\\\""
-if ! su postgres -c "psql -l"|grep -q fs; then
-    su postgres -c "createdb -T template1 -O ${DATABASE_NAME} ${DATABASE_NAME}"
-fi
 SCRIPT
 
 Vagrant.configure(2) do |config|
@@ -77,13 +12,8 @@ Vagrant.configure(2) do |config|
   end
 
   config.ssh.forward_agent = true
-  config.vm.network :forwarded_port, host: 8050, guest: 8050
+  config.vm.network :forwarded_port, host: 38050, guest: 38050
 
-  config.vm.provision "shell", inline: $ethereumcpp
-  config.vm.provision "shell", inline: $locale
-  config.vm.provision "shell", inline: $dependencies
-  config.vm.provision "shell", inline: $pyenv, privileged: false
-  config.vm.provision "shell", inline: $postgresql
   config.vm.provision "shell", inline: $node
 
 end

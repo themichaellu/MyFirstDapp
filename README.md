@@ -1,5 +1,5 @@
-# Forward
-Serpent contracts with NOde Front-End
+#MyFirstDapp
+Serpent contracts with Node Client/Server
 
 MyFirstDapp demonstrates the interaction between a client, server, and contract. Currently it sends requested amounts of ether to a static address.
 
